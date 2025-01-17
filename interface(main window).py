@@ -1,4 +1,14 @@
+import subprocess
 from tkinter import *
+
+# Function to open a .py file
+def open_script(script_name):
+    try:
+        subprocess.Popen(["python", script_name])
+    except FileNotFoundError:
+        messagebox.showerror("Error", f"File '{script_name}' not found.")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred: {str(e)}")
 
 # Create the main window
 root = Tk()
@@ -12,7 +22,7 @@ button_font = ("Fixedsys", 17)  # Font for buttons
 footer_font = ("Fixedsys", 8)   # Smaller font for footer
 
 # Header Frame
-header = Frame(root, bg='#683632', pady=33)  
+header = Frame(root, bg='#683632', pady=33)
 header.pack(fill=X)
 header_label = Label(header, text="DATA STRUCTURE AND ALGORITHMS", font=header_font, bg='#683632', fg='#ffffff')
 header_label.pack()
@@ -21,25 +31,24 @@ header_label.pack()
 main_frame = Frame(root, bg='#f8be10', pady=35, padx=35)  # Muted green for content area
 main_frame.place(relx=0.5, rely=0.56, anchor=CENTER)
 
-# Buttons for different applications
+# Buttons for different applications with their associated script names
 buttons = [
-    "Tic-Tac-Toe",
-    "Binary Tree Traversal",
-    "Stacks Application",
-    "Binary Search Tree",
-    "Queue Application",
-    "Towers of Hanoi",
-    "Sorting"
+    ("Tic-Tac-Toe", "TicTacToe.py"),
+    ("Binary Tree Traversal", "BinaryTreeTraversal.py"),
+    ("Stacks Application", "stack.py"),
+    ("Binary Search Tree", "BinarySearchTree.py"),
+    ("Queue Application", "queueapp.py"),
+    ("Towers of Hanoi", "TowersOfHanoi.py"),
+    ("Sorting", "sortingg.py"),
 ]
 
 # Create buttons with retro design
 # Calculate rows and columns for centering
-total_buttons = len(buttons) - 1  # Exclude "Sorting" for alignment purposes
 buttons_per_row = 2
 row = 0
 col = 0
 
-for i, text in enumerate(buttons[:-1]):  # Add all buttons except "Sorting"
+for text, script_name in buttons[:-1]:  # Add all buttons except "Sorting"
     btn = Button(
         main_frame,
         text=text,
@@ -50,7 +59,8 @@ for i, text in enumerate(buttons[:-1]):  # Add all buttons except "Sorting"
         fg='#ffffff',
         activebackground='#e0102f',
         activeforeground='#e8f5e9',
-        relief="flat"
+        relief="flat",
+        command=lambda script_name=script_name: open_script(script_name)
     )
     btn.grid(row=row, column=col, padx=15, pady=15)
 
@@ -70,7 +80,8 @@ sorting_button = Button(
     fg='#ffffff',
     activebackground='#e0102f',
     activeforeground='#e8f5e9',
-    relief="flat"
+    relief="flat",
+    command=lambda: open_script("sortingg.py")
 )
 sorting_button.grid(row=row + 1, column=0, columnspan=buttons_per_row, padx=15, pady=15, sticky="ew")
 
